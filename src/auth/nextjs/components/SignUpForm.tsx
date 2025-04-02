@@ -10,16 +10,19 @@ import {
 } from '@/components/ui/form';
 // import { oAuthSignIn, signUp } from '../actions';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { type z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { type signUpSchema } from '@/auth/nextjs/schemas';
+import { signUpSchema } from '@/auth/nextjs/schemas';
 import Link from 'next/link';
+import { signUp } from '@/auth/nextjs/actions';
 
 export function SignUpForm() {
     const [error, setError] = useState<string>();
     const form = useForm<z.infer<typeof signUpSchema>>({
+        resolver: zodResolver(signUpSchema),
         defaultValues: {
             name: '',
             email: '',
@@ -28,9 +31,8 @@ export function SignUpForm() {
     });
 
     async function onSubmit(data: z.infer<typeof signUpSchema>) {
-        // const error = await signUp(data);
-        // setError(error);
-        console.log('Submitting:', data);
+        const error = await signUp(data);
+        setError(error);
     }
 
     return (

@@ -1,16 +1,15 @@
 import { LogOutButton } from '@/auth/nextjs/components/LogOutButton';
-// import { getCurrentUser } from '@/auth/nextjs/currentUser';
+import { getCurrentUser } from '@/auth/nextjs/current-user';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 
 export default async function HomePage() {
-    // const fullUser = await getCurrentUser({ withFullUser: true });
-    const fullUser = { name: 'John', role: 'user' };
+    const fullUser = await getCurrentUser({ redirectIfNotFound: true, withFullUser: true });
 
     return (
         <div className="container mx-auto p-4">
-            {fullUser == null ? (
+            {fullUser === null ? (
                 <div className="flex gap-4">
                     <Button asChild>
                         <Link href="/sign-in">Sign In</Link>

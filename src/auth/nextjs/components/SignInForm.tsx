@@ -8,18 +8,21 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-// import { oAuthSignIn, signIn } from '../actions';
+// import { oAuthSignIn } from '../actions';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { type signInSchema } from '@/auth/nextjs/schemas';
+import { signInSchema } from '@/auth/nextjs/schemas';
 import Link from 'next/link';
+import { signIn } from '@/auth/nextjs/actions';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export function SignInForm() {
     const [error, setError] = useState<string>();
     const form = useForm<z.infer<typeof signInSchema>>({
+        resolver: zodResolver(signInSchema),
         defaultValues: {
             email: '',
             password: '',
@@ -27,9 +30,8 @@ export function SignInForm() {
     });
 
     async function onSubmit(data: z.infer<typeof signInSchema>) {
-        // const error = await signIn(data);
-        // setError(error);
-        console.log('Submitting:', data);
+        const error = await signIn(data);
+        setError(error);
     }
 
     return (

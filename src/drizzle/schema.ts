@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from 'drizzle-orm';
+import { sql, type InferSelectModel } from 'drizzle-orm';
 import { pgTableCreator, pgEnum } from 'drizzle-orm/pg-core';
 
 export const userRoles = ['admin', 'user'] as const;
@@ -17,11 +17,11 @@ export const userRoleEnum = pgEnum('user_roles', userRoles);
 export const createTable = pgTableCreator((name) => `next-auth-v2_${name}`);
 
 export const users = createTable('user', (d) => ({
-    id: d.uuid().primaryKey(),
+    id: d.uuid().primaryKey().defaultRandom(),
     name: d.text().notNull(),
     email: d.text().notNull().unique(),
-    password: d.text(),
-    salt: d.varchar({ length: 256 }),
+    password: d.text().notNull(),
+    salt: d.varchar({ length: 256 }).notNull(),
     role: userRoleEnum().notNull().default('user'),
     createdAt: d
         .timestamp({ withTimezone: true })
@@ -29,3 +29,4 @@ export const users = createTable('user', (d) => ({
         .notNull(),
     updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 }));
+export type TUser = InferSelectModel<typeof users>;
