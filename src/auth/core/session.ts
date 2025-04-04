@@ -12,7 +12,7 @@ const userSessionDataSchema = z.object({
 
 type TUserSessionData = z.infer<typeof userSessionDataSchema>;
 
-type TCookies = {
+export type TCookies = {
     set: (
         key: string,
         value: string,

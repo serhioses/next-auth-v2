@@ -8,7 +8,6 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-// import { oAuthSignIn } from '../actions';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 import { Input } from '@/components/ui/input';
@@ -16,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { signInSchema } from '@/auth/nextjs/schemas';
 import Link from 'next/link';
-import { signIn } from '@/auth/nextjs/actions';
+import { signIn, oAuthSignIn } from '@/auth/nextjs/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export function SignInForm() {
@@ -38,14 +37,14 @@ export function SignInForm() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 {error && <p className="text-destructive">{error}</p>}
-                {/* <div className="flex gap-4">
+                <div className="flex gap-4">
                     <Button type="button" onClick={async () => await oAuthSignIn('discord')}>
                         Discord
                     </Button>
-                    <Button type="button" onClick={async () => await oAuthSignIn('github')}>
+                    {/* <Button type="button" onClick={async () => await oAuthSignIn('github')}>
                         GitHub
-                    </Button>
-                </div> */}
+                    </Button> */}
+                </div>
                 <FormField
                     control={form.control}
                     name="email"

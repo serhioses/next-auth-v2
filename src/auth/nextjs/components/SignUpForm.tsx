@@ -8,7 +8,6 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-// import { oAuthSignIn, signUp } from '../actions';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type z } from 'zod';
@@ -17,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { signUpSchema } from '@/auth/nextjs/schemas';
 import Link from 'next/link';
-import { signUp } from '@/auth/nextjs/actions';
+import { signUp, oAuthSignIn } from '@/auth/nextjs/actions';
 
 export function SignUpForm() {
     const [error, setError] = useState<string>();
@@ -39,14 +38,14 @@ export function SignUpForm() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 {error && <p className="text-destructive">{error}</p>}
-                {/* <div className="flex gap-4">
+                <div className="flex gap-4">
                     <Button type="button" onClick={async () => await oAuthSignIn('discord')}>
                         Discord
                     </Button>
-                    <Button type="button" onClick={async () => await oAuthSignIn('github')}>
+                    {/* <Button type="button" onClick={async () => await oAuthSignIn('github')}>
                         GitHub
-                    </Button>
-                </div> */}
+                    </Button> */}
+                </div>
                 <FormField
                     control={form.control}
                     name="name"
